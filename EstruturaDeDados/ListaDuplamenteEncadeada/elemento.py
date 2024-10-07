@@ -1,16 +1,16 @@
 class Elemento:
-    def __init__(self, dado):
-        self.__dado = dado
+    def __init__(self, valor):
+        self.__valor = valor
         self.__ant = None
         self.__prox = None
 
     @property
-    def dado(self):
-        return self.__dado
+    def valor(self):
+        return self.__valor
 
-    @dado.setter
-    def dado(self, dado):
-        self.__dado = dado
+    @valor.setter
+    def valor(self, valor):
+        self.__valor = valor
 
     @property
     def ant(self):
