@@ -1,148 +1,155 @@
-from elemento import Elemento
+from no import Nodo
 
 class ListaDuplamenteEncadeada:
     def __init__(self):
-        self.__inicio = None
-        self.__fim = None
+        self.__cabeca = None
+        self.__cauda = None
         self.__cursor = None
 
-    def AcessarAtual(self):
-        return self.__cursor.valor
+    def acessar_atual(self):
+        if self.__cursor:
+            print(f'Valor atual: {self.__cursor.valor}')
 
-    def InserirAntesAtual(self, novo):
-        Novov = Elemento(novo)
-        if self.__cursor == None:
-            Novov.ant = self.__cursor.ant
-            Novov.prox = self.__cursor
-
-        if self.__cursor.ant:
-            self.__cursor.ant.prox = novo
+    def inserir_antes_do_atual(self, novo):
+        novo_nodo = Nodo(novo)
+        if not self.__cursor:
+            return  # Não faz nada se o cursor for None
+        novo_nodo.proximo = self.__cursor
+        novo_nodo.anterior = self.__cursor.anterior
+        if self.__cursor.anterior:
+            self.__cursor.anterior.proximo = novo_nodo
         else:
-            self.__inicio = novo
-        self.__cursor.ant = novo
+            self.__cabeca = novo_nodo  # Atualiza a cabeça se estiver inserindo antes do primeiro elemento
+        self.__cursor.anterior = novo_nodo
 
-    def InserirAposAtual(self, novo):
-        Novov = Elemento(novo)
-        if self.__cursor is None:
-            Novov.prox = self.__cursor.prox
-            Novov.ant = self.__cursor
-
-        if self.__cursor.prox:
-            self.__cursor.prox.ant = novo
+    def inserir_após_atual(self, novo):
+        novo_nodo = Nodo(novo)
+        if not self.__cursor:
+            return  # Não faz nada se o cursor for None
+        novo_nodo.anterior = self.__cursor
+        novo_nodo.proximo = self.__cursor.proximo
+        self.__cursor.proximo = novo_nodo
+        if novo_nodo.proximo:
+            novo_nodo.proximo.anterior = novo_nodo
         else:
-            self.__fim = novo
-        self.__cursor.prox = novo
+            self.__cauda = novo_nodo  # Atualiza a cauda se estiver inserindo após o último elemento
 
-    def InserirComoUltimo(self, novo):
-        Novov = Elemento(novo)
-        if self.__fim:
-            self.__fim.prox = novo
-            Novov.ant = self.__fim
-            self.__fim = novo
+    def inserir_como_ultimo(self, novo):
+        novo_nodo = Nodo(novo)
+        if not self.__cabeca:
+            self.__cabeca = novo_nodo
+            self.__cauda = novo_nodo
         else:
-            self.__inicio = novo
-            self.__fim = novo
-        self.__cursor = novo
+            self.__cauda.proximo = novo_nodo
+            novo_nodo.anterior = self.__cauda
+            self.__cauda = novo_nodo
 
-    def InserirComoPrimeiro(self, novo):
-        Novov = Elemento(novo)
-        if self.__inicio:
-            Novov.prox = self.__inicio
-            self.__inicio.ant = novo
-            self.__inicio = novo
+    def inserir_como_primeiro(self, novo):
+        novo_nodo = Nodo(novo)
+        if not self.__cabeca:
+            self.__cabeca = novo_nodo
+            self.__cauda = novo_nodo
         else:
-            self.__inicio = novo
-            self.__fim = novo
-        self.__cursor = novo
+            novo_nodo.proximo = self.cabeca
+            self.__cabeca.anterior = novo_nodo
+            self.__cabeca = novo_nodo
 
-    def InserirNaPosicao(self, k, novo):
-        Novov = Elemento(novo)
+    def inserir_na_posicao(self, k, novo):
         if k == 0:
-            self.InserirComoPrimeiro(novo)
-        atual = self.__inicio
-        pos = 0
-
-        while atual and pos < k:
-            atual = atual.elemento.prox
-            pos+=1
-
-        if atual == None:
-            self.InserirComoUltimo(novo)
+            self.inserir_como_primeiro(novo)
+            return
+        novo_nodo = Nodo(novo)
+        atual = self.cabeca
+        for _ in range(k):
+            if not atual:
+                break
+            atual = atual.proximo
+        if atual:
+            novo_nodo.anterior = atual.anterior
+            novo_nodo.proximo = atual
+            if atual.anterior:
+                atual.anterior.proximo = novo_nodo
+            else:
+                self.__cabeca = novo_nodo
+            atual.anterior = novo_nodo
         else:
-            Novov.ant = atual.ant
-            Novov.prox = atual
-            if atual.ant:
-                atual.ant.prox = novo
-            atual.ant = novo
+            self.inserir_como_ultimo(novo)
 
-            if Novov.ant == None:
-                self.__inicio = novo
+    def excluir_atual(self):
+        if not self.cursor:
+            return
+        if self.__cursor.anterior:
+            self.__cursor.anterior.proximo = self.__cursor.proximo
+        else:
+            self.__cabeca = self.__cursor.proximo
+        if self.__cursor.proximo:
+            self.__cursor.proximo.anterior = self.__cursor.anterior
+        else:
+            self.__cauda = self.__cursor.anterior
+        self.__cursor = self.__cursor.proximo  # Mover o cursor para o próximo elemento
 
-    def ExcluirAtual(self):
-        if self.__cursor == None:
-            if self.__cursor.ant:
-                self.__cursor.ant.prox = self.__cursor.prox
-            else:
-                self.__inicio = self.__cursor.prox
-            if self.__cursor.prox:
-                self.__cursor.prox.ant = self.__cursor.ant
-            else:
-                self.__fim = self.__cursor.ant
-            self.__cursor = self.__cursor.prox
+    def excluir_prim(self):
+        if not self.__cabeca:
+            return
+        self.__cursor = self.__cabeca
+        self.excluir_atual()
 
-    def ExcluirPrimeiro(self):
-        if self.__inicio == None:
-            self.__cursor = self.__inicio
-            self.ExcluirAtual()
+    def excluir_ult(self):
+        if not self.__cauda:
+            return
+        self.__cursor = self.__cauda
+        self.excluir_atual()
 
-    def ExcluirUltimo(self):
-        if self.__fim == None:
-            self.__cursor = self.__fim
-            self.ExcluirAtual()
-
-    def ExcluirElemento(self, chave):
-        atual = self.__inicio
+    def excluir_elem(self, chave):
+        atual = self.__cabeca
         while atual:
-            if atual.elemento.valor == chave:
+            if atual.valor == chave:
                 self.__cursor = atual
-                self.ExcluirAtual()
-                atual = atual.elemento.prox
+                self.excluir_atual()
+                return
+            atual = atual.proximo
 
-    def ExcluirDaPosicao(self, k):
-        atual = self.__inicio
-        pos = 0
-
-        while atual and pos < k:
-            atual = atual.prox
-            pos+=1
+    def excluir_da_pos(self, k):
+        atual = self.__cabeca
+        for _ in range(k):
+            if not atual:
+                return
+            atual = atual.proximo
         if atual:
             self.__cursor = atual
-            self.ExcluirAtual()
+            self.excluir_atual()
 
-    def Buscar(self, chave):
-        atual = self.__inicio
+    def buscar(self, chave):
+        atual = self.__cabeca
         while atual:
             if atual.valor == chave:
                 return True
-            atual = atual.prox
+            atual = atual.proximo
         return False
 
-    def AvancarKPosicoes(self, k):
+    def exibir(self):
+        atual = self.__cabeca
+        while atual:
+            print(atual.valor, end=' ')
+            atual = atual.proximo
+        print()
+
+    def avancar_k_posicoes(self, k):
         for _ in range(k):
-            if self.__cursor and self.__cursor.prox:
-                self.__cursor = self.__cursor.prox
+            if self.__cursor and self.__cursor.proximo:
+                self.__cursor = self.__cursor.proximo
             else:
-                break  # Chegou ao final da lista
+                break  # Para se chegar ao final da lista
 
-    def RetrocederKposicoes(self, k):
+    def retroceder_k_posicoes(self, k):
         for _ in range(k):
-            if self.__cursor and self.__cursor.ant:
-                self.__cursor = self.__cursor.ant
+            if self.__cursor and self.__cursor.anterior:
+                self.__cursor = self.__cursor.anterior
             else:
-                break  # Chegou ao início da lista
+                break  # Para se chegar ao início da lista
 
-    def irParaPrimeiro(self):
-        self.__cursor = self.__inicio
+    def ir_para_primeiro(self):
+        self.__cursor = self.__cabeca
 
-    def irParaUltimo(self):
-        self.__cursor = self.__fim
+    def ir_para_ultimo(self):
+        self.__cursor = self.__cauda
