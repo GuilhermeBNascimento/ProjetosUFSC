@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ListaDuplamenteEncadeada.iml" filepath="$PROJECT_DIR$/.idea/ListaDuplamenteEncadeada.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ListaEncadeadaComCursor.iml" filepath="$PROJECT_DIR$/.idea/ListaEncadeadaComCursor.iml" />
     </modules>
   </component>
 </project>
