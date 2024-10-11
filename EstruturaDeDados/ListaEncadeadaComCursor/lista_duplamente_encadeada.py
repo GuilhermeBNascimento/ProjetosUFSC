@@ -8,7 +8,9 @@ class ListaDuplamenteEncadeada:
 
     def acessar_atual(self):
         if self.__cursor:
-            print(f'Valor atual: {self.__cursor.valor}')
+            return print("Valor Atual", self.__cursor.valor)
+        else:
+            return print("Valor não existente!")
 
     def inserir_antes_do_atual(self, novo):
         novo_no = NO(novo)
