@@ -1,11 +1,16 @@
 class DiretorioDiscreto:
     def __init__(self):
-        self.dados = {}  # chave: valor discreto, valor: lista de IDs de elementos
+        self.indices = {}
 
-    def adicionar(self, valor, id_elemento):
-        if valor not in self.dados:
-            self.dados[valor] = []
-        self.dados[valor].append(id_elemento)
+    def indexar(self, elemento, campo):
+        valor = getattr(elemento, campo)
+        if valor not in self.indices:
+            self.indices[valor] = []
+        self.indices[valor].append(elemento)
 
     def consultar(self, valor):
-        return self.dados.get(valor, [])
+        return self.indices.get(valor, [])
+
+    def limpar(self):
+        self.indices = {}
+
