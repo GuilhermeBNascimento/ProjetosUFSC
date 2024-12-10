@@ -1,16 +1,16 @@
 class DiretorioDiscreto:
     def __init__(self):
-        self.indices = {}
+        self.__indices = {}
 
     def indexar(self, elemento, campo):
         valor = getattr(elemento, campo)
-        if valor not in self.indices:
-            self.indices[valor] = []
-        self.indices[valor].append(elemento)
+        if valor not in self.__indices:
+            self.__indices[valor] = []
+        self.__indices[valor].append(elemento)
 
     def consultar(self, valor):
-        return self.indices.get(valor, [])
+        return self.__indices.get(valor, [])
 
     def limpar(self):
-        self.indices = {}
+        self.__indices = {}
 

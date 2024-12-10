@@ -12,29 +12,30 @@ def main():
 
     def carregar_dados():
         dados = [
-            Veiculo(1, "Toyota", "Corolla", 2020, "São Paulo", 90000),
-            Veiculo(2, "Ford", "Fiesta", 2018, "Rio de Janeiro", 45000),
-            Veiculo(3, "Chevrolet", "Onix", 2021, "Belo Horizonte", 75000),
+            Veiculo(1, "toyota", "corolla", 2020, "são paulo", 90000),
+            Veiculo(2, "ford", "fiesta", 2018, "rio de janeiro", 45000),
+            Veiculo(3, "chevrolet", "onix", 2021, "belo horizonte", 75000),
         ]
         for veiculo in dados:
             if multilista.inserir(veiculo):
                 diretorio_marca.indexar(veiculo, "marca")
                 diretorio_modelo.indexar(veiculo, "modelo")
                 diretorio_preco.indexar(veiculo, "preco")
+        print("Dados Carregados com sucesso.")
 
     def incluir_veiculo():
         identificador = int(input("Identificador: "))
-        marca = input("Marca: ")
-        modelo = input("Modelo: ")
-        ano = input("Ano: ")
-        cidade = input("Cidade: ")
+        marca = input("Marca: ").upper()
+        modelo = input("Modelo: ").upper()
+        ano = int(input("Ano: "))
+        cidade = input("Cidade: ").upper()
         preco = float(input("Preco: "))
         veiculo = Veiculo(identificador, marca, modelo, ano, cidade, preco)
         if multilista.inserir(veiculo):
             diretorio_marca.indexar(veiculo, "marca")
             diretorio_modelo.indexar(veiculo, "modelo")
             diretorio_preco.indexar(veiculo, "preco")
-            print("Elemento adicionado com sucesso.")
+            print("Veiculo adicionado com sucesso.")
 
     def consulta_simples():
         campo = input("Escolha o campo (marca, modelo ou preco): ")
@@ -102,28 +103,28 @@ def main():
     # Menu
     while True:
         print("\nMenu:")
-        print("1. Carga de dados")
-        print("2. Consulta simples")
-        print("3. Consulta composta")
-        print("4. Incluir novo veiculo")
-        print("5. Buscar veiculo por identificador")
-        print("6. Remover veiculo por identificador")
+        print("1. Incluir novo veiculo")
+        print("2. Remover veiculo por identificador")
+        print("3. Buscar veiculo por identificador")
+        print("4. Consulta Simples")
+        print("5. Consulta Composta")
+        print("6. Carga de Dados")
         print("7. Listar todos os veiculos")
         print("0. Sair")
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
-            carregar_dados()
-        elif opcao == "2":
-            consulta_simples()
-        elif opcao == "3":
-            consulta_composta()
-        elif opcao == "4":
             incluir_veiculo()
-        elif opcao == "5":
-            buscar_por_identificador()
-        elif opcao == "6":
+        elif opcao == "2":
             remover_veiculo()
+        elif opcao == "3":
+            buscar_por_identificador()
+        elif opcao == "4":
+            consulta_simples()
+        elif opcao == "5":
+            consulta_composta()
+        elif opcao == "6":
+            carregar_dados()
         elif opcao == "7":
             listar_todos()
         elif opcao == "0":
