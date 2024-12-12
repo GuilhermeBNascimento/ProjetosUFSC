@@ -25,10 +25,10 @@ def main():
 
     def incluir_veiculo():
         identificador = int(input("Identificador: "))
-        marca = input("Marca: ").upper()
-        modelo = input("Modelo: ").upper()
+        marca = input("Marca: ").lower()
+        modelo = input("Modelo: ").lower()
         ano = int(input("Ano: "))
-        cidade = input("Cidade: ").upper()
+        cidade = input("Cidade: ").lower()
         preco = float(input("Preco: "))
         veiculo = Veiculo(identificador, marca, modelo, ano, cidade, preco)
         if multilista.inserir(veiculo):
