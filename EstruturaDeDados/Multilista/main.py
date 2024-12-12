@@ -38,12 +38,12 @@ def main():
             print("Veiculo adicionado com sucesso.")
 
     def consulta_simples():
-        campo = input("Escolha o campo (marca, modelo ou preco): ")
+        campo = input("Escolha o campo (marca, modelo ou preco): ").lower()
         if campo == "marca":
-            valor = input("Informe a marca: ")
+            valor = input("Informe a marca: ").lower()
             resultado = diretorio_marca.consultar(valor)
         elif campo == "modelo":
-            valor = input("Informe o modelo: ")
+            valor = input("Informe o modelo: ").lower()
             resultado = diretorio_modelo.consultar(valor)
         elif campo == "preco":
             min_val = float(input("Preco mínimo: "))
@@ -57,10 +57,10 @@ def main():
 
     def consulta_composta():
         print("Escolha dois campos: (marca e modelo), (marca e preco), (modelo e preco)")
-        campos = input("Exemplo: marca e modelo -> ").split(" e ")
+        campos = input("Exemplo: marca e modelo -> ").lower().split(" e ")
         if "marca" in campos and "modelo" in campos:
-            marca = input("Informe a marca: ")
-            modelo = input("Informe o modelo: ")
+            marca = input("Informe a marca: ").lower()
+            modelo = input("Informe o modelo: ").lower()
             resultado = [v for v in diretorio_marca.consultar(marca) if v in diretorio_modelo.consultar(modelo)]
         elif "marca" in campos and "preco" in campos:
             marca = input("Informe a marca: ")
